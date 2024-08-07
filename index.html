@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="stylesheet" href="reset.css">
+        <link rel="stylesheet" href="styles.css">
+        <title>¿Q Tan Gorda Es?</title>
+    </head>
+    <body>
+        <h1>¿Que tan gorda puede llegar a ser Cecilia?</h1>
+        <button id="generarBoton" onclick="generarNumeroAleatorio()">¿Qué tan gorda es?</button>
+        <div class="result" id="resultado"></div>
+        <div class="range-text" id="textoRango"></div>
+        <div class="total" id="contadorTotal">Pesa: 0 Kg</div>
+        <div class="record" id="recordMaximo">Record: 0</div>
+        <div class="message" id="mensaje"></div>
+    
+        <script>
+            let contadorTotal = 0;
+            let recordMaximo = 0;
+            let botonDesactivado = false;
+
+            function generarNumeroAleatorio() {
+                if (botonDesactivado) {
+                    return; // No hace nada si el botón está desactivado
+                }
+
+                // Genera un número aleatorio entre 0 y 1, sesgado con una distribución cúbica
+                const numeroSesgado = Math.pow(Math.random(), 15);
+
+                // Decide si el número será positivo o negativo
+                const esNegativo = Math.random() < 0.5; // 50% de probabilidad de ser negativo
+
+                let numeroAleatorio;
+                if (esNegativo) {
+                    numeroAleatorio = -Math.round(numeroSesgado * 25); // Número negativo entre -1 y -25
+                } else {
+                    numeroAleatorio = Math.round(numeroSesgado * 50); // Número positivo entre 0 y 50
+                }
+
+                document.getElementById('resultado').textContent = numeroAleatorio + "Kg";
+
+                // Determina el texto basado en el rango del número
+                let textoRango = '...';
+                if (numeroAleatorio >= 0 && numeroAleatorio <= 5) {
+                    textoRango = 'Respiro';
+                } else if (numeroAleatorio >= 6 && numeroAleatorio <= 10) {
+                    textoRango = '¿Les gusto el cuento?';
+                } else if (numeroAleatorio >= 11 && numeroAleatorio <= 20) {
+                    textoRango = '¡Adentro Chicos!';
+                } else if (numeroAleatorio >= 21 && numeroAleatorio <= 25) {
+                    textoRango = 'Saquen el apunte';
+                } else if (numeroAleatorio >= 26 && numeroAleatorio <= 35) {
+                    textoRango = '¿Quien quiere leer?';
+                } else if (numeroAleatorio >= 36 && numeroAleatorio <= 40) {
+                    textoRango = '¿Leyenron la novela?';
+                } else if (numeroAleatorio >= 41 && numeroAleatorio <= 46) {
+                    textoRango = 'Silencio!!!';
+                } else if (numeroAleatorio >= 47 && numeroAleatorio <= 49) {
+                    textoRango = 'El Barroco';
+                } else if (numeroAleatorio == 50) {
+                    textoRango = '¡CHICOS!';
+                } else if (numeroAleatorio >= -1 && numeroAleatorio <= -6) {
+                    textoRango = '...';
+                } else if (numeroAleatorio >= -7 && numeroAleatorio <= -11) {
+                    textoRango = '...';
+                } else if (numeroAleatorio >= -12 && numeroAleatorio <= -15) {
+                    textoRango = '...';
+                } else if (numeroAleatorio >= -16 && numeroAleatorio <= -20) {
+                    textoRango = '...';
+                } else if (numeroAleatorio >= -21 && numeroAleatorio <= -24) {
+                    textoRango = '...';
+                } else if (numeroAleatorio == -25) {
+                    textoRango = '...';
+                }
+
+                document.getElementById('textoRango').textContent = textoRango;
+
+                // Suma o resta el número generado al contador total
+                contadorTotal += numeroAleatorio;
+                document.getElementById('contadorTotal').textContent = "Pesa: " + contadorTotal + " Kg";
+
+                // Actualiza el record máximo si la suma total es mayor que el récord actual
+                if (contadorTotal > recordMaximo) {
+                    recordMaximo = contadorTotal;
+                    document.getElementById('recordMaximo').textContent = "Record: " + recordMaximo + " Kg";
+                }
+
+                // Verifica la probabilidad de desactivar el botón
+                if (Math.random() < 0.004) { // 1 en 250
+                    document.getElementById('mensaje').textContent = "¡Te expulsaron!";
+                    desactivarBoton();
+                }
+            }
+
+            function desactivarBoton() {
+                botonDesactivado = true;
+                const boton = document.getElementById('generarBoton');
+                boton.classList.add('disabled');
+                boton.disabled = true;
+            }
+        </script>
+    </body>
+</html>
